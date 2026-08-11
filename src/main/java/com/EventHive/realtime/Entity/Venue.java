@@ -5,6 +5,8 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -13,7 +15,8 @@ import jakarta.persistence.Table;
 public class Venue {
     @Id
     @Column(name="venue_id")
-    private String venue_id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private int  venue_id;
     private String venue_name;
     private String venue_address;
     private int venue_capacity;
