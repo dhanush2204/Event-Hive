@@ -1,7 +1,11 @@
 package com.EventHive.realtime.Entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,19 +15,19 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="event_seats", uniqueConstraints=@UniqueConstraint(columnNames={"event_id","seat_id"}))
+@Table(name="event_seat", uniqueConstraints=@UniqueConstraint(columnNames={"event_id","seat_id"}))
 public class EventSeat {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="eventseat_id")
-    private int eventseat_id;
-    @ManyToOne
+    private Long eventseatId;
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="event_id")
     private Event event;
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="seat_id")
     private Seat seat;
     private int price;
     private String status;
-    private String hold_expires_at;
+    private LocalDateTime holdExpiresAt;
 }

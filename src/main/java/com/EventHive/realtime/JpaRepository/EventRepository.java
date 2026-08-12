@@ -10,6 +10,6 @@ import com.EventHive.realtime.Entity.Event;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Integer>{
-    List<Event> findByVenueId(int venue_id);
-    List<Event> findByEventDateAfter(LocalDateTime date);
+    List<Event> findByVenueId(Long venueId);
+    List<Event> findByEventDateAfter(LocalDateTime EventDate);
 }
