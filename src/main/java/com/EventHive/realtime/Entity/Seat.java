@@ -2,6 +2,7 @@ package com.EventHive.realtime.Entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -10,17 +11,17 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="Seat")
+@Table(name="seat")
 public class Seat {
     @Id
     @Column(name="seat_id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int seat_id;
-    @ManyToOne
+    private Long  seatId;
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="venue_id")
     private Venue venue;
-    private String row_label;
-    private int seat_number;
+    private String rowLabel;
+    private String seatNumber;
     private String section;
-    private String Seat_type;
+    private String SeatType;
 }

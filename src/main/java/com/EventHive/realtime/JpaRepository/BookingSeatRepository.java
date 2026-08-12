@@ -9,5 +9,5 @@ import com.EventHive.realtime.Entity.BookingSeat;
 
 @Repository
 public interface BookingSeatRepository extends JpaRepository<BookingSeat, Integer>{
-    List<BookingSeat> findByBookingId(int booking_id);
+    List<BookingSeat> findByBookingId(Long bookingId);
 }

@@ -16,11 +16,11 @@ public class Venue {
     @Id
     @Column(name="venue_id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int  venue_id;
-    private String venue_name;
-    private String venue_address;
-    private int venue_capacity;
-    private LocalDate created_at;
+    private Long venueId;
+    private String venueName;
+    private String venueAddress;
+    private int venueCapacity;
+    private LocalDate createdAt;
     @OneToMany(mappedBy="venue")
     private List<Seat> seats;
     @OneToMany(mappedBy="venue")

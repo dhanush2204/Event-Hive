@@ -9,6 +9,6 @@ import com.EventHive.realtime.Entity.Seat;
 
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, Integer>{
-    List<Seat> findByVenueId(int venue_id);
+    List<Seat> findByVenueId(Long venueId);
 
 }
