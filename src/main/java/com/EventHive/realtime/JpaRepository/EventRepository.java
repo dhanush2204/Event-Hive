@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.EventHive.realtime.Entity.Event;
 
 @Repository
-public interface EventRepository extends JpaRepository<Event, Integer>{
-    List<Event> findByVenueId(Long venueId);
-    List<Event> findByEventDateAfter(LocalDateTime EventDate);
+public interface EventRepository extends JpaRepository<Event, Long>{
+    List<Event> findByVenue_VenueId(Long venueId);
+    List<Event> findByEventDateAfter(LocalDateTime eventDate);
 }

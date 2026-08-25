@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import com.EventHive.realtime.Entity.Booking;
 @Repository
-public interface BookingRepository extends JpaRepository<Booking,Integer>{
-    List<Booking> findByUserId(Long userId);
+public interface BookingRepository extends JpaRepository<Booking,Long>{
+    List<Booking> findByUser_UserId(Long userId);
 }

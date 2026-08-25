@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.EventHive.realtime.Entity.Venue;
 
 @Repository
-public interface VenueRepository extends JpaRepository<Venue, Integer>{
+public interface VenueRepository extends JpaRepository<Venue, Long>{
 
 }

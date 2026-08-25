@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.EventHive.realtime.Entity.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer>{
+public interface UserRepository extends JpaRepository<User, Long>{
 
 }

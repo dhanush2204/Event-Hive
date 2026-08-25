@@ -1,6 +1,6 @@
 package com.EventHive.realtime.Entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -20,9 +20,54 @@ public class Venue {
     private String venueName;
     private String venueAddress;
     private int venueCapacity;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
     @OneToMany(mappedBy="venue")
     private List<Seat> seats;
     @OneToMany(mappedBy="venue")
     private List<Event> events;
+
+    public Long getVenueId() {
+        return venueId;
+    }
+
+    public String getVenueName() {
+        return venueName;
+    }
+
+    public String getVenueAddress() {
+        return venueAddress;
+    }
+
+    public int getVenueCapacity() {
+        return venueCapacity;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public List<Seat> getSeats() {
+        return seats;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setVenueName(String venueName) {
+        this.venueName = venueName;
+    }
+
+    public void setVenueAddress(String venueAddress) {
+        this.venueAddress = venueAddress;
+    }
+
+    public void setVenueCapacity(int venueCapacity) {
+        this.venueCapacity = venueCapacity;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
 }

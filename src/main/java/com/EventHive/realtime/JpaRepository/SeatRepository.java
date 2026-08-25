@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.EventHive.realtime.Entity.Seat;
 
 @Repository
-public interface SeatRepository extends JpaRepository<Seat, Integer>{
-    List<Seat> findByVenueId(Long venueId);
+public interface SeatRepository extends JpaRepository<Seat, Long>{
+    List<Seat> findByVenue_VenueId(Long venueId);
 
 }

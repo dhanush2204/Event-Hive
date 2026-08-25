@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.EventHive.realtime.Entity.BookingSeat;
 
 @Repository
-public interface BookingSeatRepository extends JpaRepository<BookingSeat, Integer>{
+public interface BookingSeatRepository extends JpaRepository<BookingSeat, Long>{
     List<BookingSeat> findByBookingId(Long bookingId);
 }
