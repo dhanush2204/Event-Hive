@@ -1,6 +1,9 @@
 package com.EventHive.realtime.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,5 +67,19 @@ public class EventService {
         Event event=eventRepo.findById(eventId)
             .orElseThrow(()->new EventNotFoundException("event with eventId "+eventId+" doesn't exist"));
         return convertToResponseDTO(event);
+    }
+    public List<EventResponseDTO> getEvents(){
+        LocalDateTime cutOffTime=LocalDateTime.now().minusMinutes(30);
+        List<Event> events=new ArrayList<>();
+        List<EventResponseDTO> eventDTOs=new ArrayList<>();
+        List<Event> upcomingEvents=eventRepo.findByStatus(EventStatus.UPCOMING);
+        List<Event> ongoingEvents=eventRepo.findByStatusAndEventDateGreaterThanEqual(EventStatus.ONGOING, cutOffTime);
+        events.addAll(upcomingEvents);
+        events.addAll(ongoingEvents);
+        events.sort(Comparator.comparing(Event::getEventDate));
+        for(Event event:events){
+            eventDTOs.add(convertToResponseDTO(event));
+        }
+        return eventDTOs;
     }
 }

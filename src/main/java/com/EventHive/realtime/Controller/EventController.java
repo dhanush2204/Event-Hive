@@ -1,5 +1,7 @@
 package com.EventHive.realtime.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,5 +31,9 @@ public class EventController {
     @GetMapping("/{eventId}")
     public EventResponseDTO getEventById(@PathVariable Long eventId){
         return eventService.getEventById(eventId);
+    }
+    @GetMapping
+    public List<EventResponseDTO> getEvents(){
+        return eventService.getEvents();
     }
 }
