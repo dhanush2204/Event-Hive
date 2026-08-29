@@ -18,14 +18,18 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/venues")
 public class VenueController {
+    
+    private final VenueService venueService;
     @Autowired
-    VenueService venueservice;
+    public VenueController(VenueService venueService){
+        this.venueService=venueService;
+    }
     @PostMapping()
     public VenueResponseDTO createVenue(@Valid @RequestBody VenueRequestDTO venuerequestDto){
-        return venueservice.createVenue(venuerequestDto);
+        return venueService.createVenue(venuerequestDto);
     }
     @GetMapping("/{venueId}")
     public VenueResponseDTO getVenueById(@PathVariable Long venueId){
-        return venueservice.getVenueById(venueId);
+        return venueService.getVenueById(venueId);
     }
 }

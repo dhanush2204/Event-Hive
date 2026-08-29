@@ -17,14 +17,17 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/events")
 public class EventController {
+    private final EventService eventService;
     @Autowired
-    EventService eventservice;
+    public EventController(EventService eventService){
+        this.eventService=eventService;
+    }
     @PostMapping
     public EventResponseDTO createEvent(@Valid @RequestBody EventRequestDTO request){
-        return eventservice.createEvent(request);
+        return eventService.createEvent(request);
     }
     @GetMapping("/{eventId}")
     public EventResponseDTO getEventById(@PathVariable Long eventId){
-        return eventservice.getEventById(eventId);
+        return eventService.getEventById(eventId);
     }
 }

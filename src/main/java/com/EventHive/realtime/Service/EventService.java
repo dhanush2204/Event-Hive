@@ -16,12 +16,15 @@ import com.EventHive.realtime.JpaRepository.VenueRepository;
 
 @Service
 public class EventService {
+    private final EventRepository eventRepo;
+    private final VenueRepository venueRepo;
+    private final VenueService venueService;
     @Autowired
-    EventRepository eventRepo;
-    @Autowired
-    VenueRepository venueRepo;
-    @Autowired
-    VenueService venueService;
+    public EventService(EventRepository eventRepo,VenueRepository venueRepo,VenueService venueService){
+        this.eventRepo=eventRepo;
+        this.venueRepo=venueRepo;
+        this.venueService=venueService;
+    }
     public EventResponseDTO convertToResponseDTO(Event event){
         EventResponseDTO dto=new EventResponseDTO();
         dto.setEventId(event.getEventId());
