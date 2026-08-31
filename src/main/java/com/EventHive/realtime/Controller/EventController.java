@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.EventHive.realtime.DTO.EventRequestDTO;
 import com.EventHive.realtime.DTO.EventResponseDTO;
+import com.EventHive.realtime.DTO.EventUpdateRequestDTO;
 import com.EventHive.realtime.Service.EventService;
 
 import jakarta.validation.Valid;
@@ -35,5 +37,13 @@ public class EventController {
     @GetMapping
     public List<EventResponseDTO> getEvents(){
         return eventService.getEvents();
+    }
+    @PatchMapping("/{eventId}/cancel")
+    public EventResponseDTO cancelEvents(@PathVariable Long eventId){
+        return eventService.cancelEvent(eventId);
+    }
+    @PatchMapping("/{eventId}")
+    public EventResponseDTO updateEvents(@Valid @RequestBody EventUpdateRequestDTO dto,@PathVariable Long eventId){
+        return eventService.updateEvent(dto,eventId);
     }
 }

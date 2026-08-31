@@ -19,4 +19,19 @@ public class GlobalExceptionHandler {
         ErrorResponse error=new ErrorResponse(ex.getMessage(),HttpStatus.NOT_FOUND.value(),LocalDateTime.now());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
+    @ExceptionHandler(InvalidEventStateException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidEventState(InvalidEventStateException ex){
+        ErrorResponse error=new ErrorResponse(ex.getMessage(),HttpStatus.NOT_FOUND.value(),LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+    @ExceptionHandler(InvalidDateTimeException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidDateTime(InvalidDateTimeException ex){
+        ErrorResponse error=new ErrorResponse(ex.getMessage(),HttpStatus.NOT_FOUND.value(),LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+    @ExceptionHandler(InvalidEventDataException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidEventData(InvalidEventDataException ex){
+        ErrorResponse error=new ErrorResponse(ex.getMessage(),HttpStatus.NOT_FOUND.value(),LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }     
 }

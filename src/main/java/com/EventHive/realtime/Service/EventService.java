@@ -10,12 +10,19 @@ import org.springframework.stereotype.Service;
 
 import com.EventHive.realtime.DTO.EventRequestDTO;
 import com.EventHive.realtime.DTO.EventResponseDTO;
+import com.EventHive.realtime.DTO.EventUpdateRequestDTO;
 import com.EventHive.realtime.Entity.Event;
 import com.EventHive.realtime.Entity.Venue;
+import com.EventHive.realtime.Enum.EventGenre;
 import com.EventHive.realtime.Enum.EventStatus;
 import com.EventHive.realtime.Exception.EventNotFoundException;
+import com.EventHive.realtime.Exception.InvalidDateTimeException;
+import com.EventHive.realtime.Exception.InvalidEventDataException;
+import com.EventHive.realtime.Exception.InvalidEventStateException;
 import com.EventHive.realtime.JpaRepository.EventRepository;
 import com.EventHive.realtime.JpaRepository.VenueRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class EventService {
@@ -81,5 +88,84 @@ public class EventService {
             eventDTOs.add(convertToResponseDTO(event));
         }
         return eventDTOs;
+    }
+    public EventResponseDTO cancelEvent(Long eventId){
+        Event event=eventRepo.findById(eventId)
+            .orElseThrow(()->new EventNotFoundException("event with eventId "+eventId+" doesn't exist"));
+        if(event.getStatus()==EventStatus.UPCOMING){
+            event.setStatus(EventStatus.CANCELLED);
+        }
+        else{
+            throw new InvalidEventStateException("Event with eventId "+eventId+" is not an upcoming event");
+        }
+        eventRepo.save(event);
+        return convertToResponseDTO(event);
+    }
+    @Transactional
+    public EventResponseDTO updateEvent(EventUpdateRequestDTO dto,Long eventId){
+        Event event=eventRepo.findById(eventId)
+            .orElseThrow(()->new EventNotFoundException("event with eventId "+eventId+" doesn't exist"));
+        if(event.getStatus()==EventStatus.UPCOMING){
+            LocalDateTime now=LocalDateTime.now();
+            LocalDateTime newStart;
+            if(dto.getEventDate()!=null){
+                newStart=dto.getEventDate();
+            }
+            else{
+                newStart=event.getEventDate();
+            }
+            LocalDateTime newEnd;
+            if(dto.getEndDateTime()!=null){
+                newEnd=dto.getEndDateTime();
+            }
+            else{
+                newEnd=event.getEndDateTime();
+            }
+            if(!newStart.isAfter(now) || !newEnd.isAfter(newStart)){
+                throw new InvalidDateTimeException("Invalid Date Logic");
+            }
+            else{
+                event.setEventDate(newStart);
+                event.setEndDateTime(newEnd);
+            }
+            if(dto.getEventName()!=null){
+                if (dto.getEventName().isBlank()) {
+                    throw new InvalidEventDataException("Event name cannot be blank");
+                }
+                event.setEventName(dto.getEventName());
+            }
+            if(dto.getDescription()!=null){
+                if(dto.getDescription().isBlank()){
+                    throw new InvalidEventDataException("Description cannot be blank");
+                }
+                event.setDescription(dto.getDescription());
+            }
+            if(dto.getGenre()!=null){
+                event.setGenre(dto.getGenre());
+            }
+        }
+        else if(event.getStatus()==EventStatus.ONGOING){
+            if(dto.getEventName()!=null){
+                if (dto.getEventName().isBlank()) {
+                    throw new InvalidEventDataException("Event name cannot be blank");
+                }
+                event.setEventName(dto.getEventName());
+            }
+            if(dto.getDescription()!=null){
+                if(dto.getDescription().isBlank()){
+                    throw new InvalidEventDataException("Description cannot be blank");
+                }
+                event.setDescription(dto.getDescription());
+            }
+            if(dto.getGenre()!=null){
+                event.setGenre(dto.getGenre());
+            }
+        } 
+        else{
+            throw new InvalidEventStateException("Event cannot be updated in its current state");
+
+        }
+        eventRepo.save(event);
+        return convertToResponseDTO(event);
     }
 }
