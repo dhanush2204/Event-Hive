@@ -33,5 +33,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleInvalidEventData(InvalidEventDataException ex){
         ErrorResponse error=new ErrorResponse(ex.getMessage(),HttpStatus.NOT_FOUND.value(),LocalDateTime.now());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-    }     
+    }
+    @ExceptionHandler(EventNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFound(EventNotFoundException ex){
+        ErrorResponse error=new ErrorResponse(ex.getMessage(),HttpStatus.NOT_FOUND.value(),LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+    @ExceptionHandler(BookingNotAllowedException.class)
+    public ResponseEntity<ErrorResponse> handleBookingNotAllowed(BookingNotAllowedException ex){
+        ErrorResponse error=new ErrorResponse(ex.getMessage(),HttpStatus.NOT_FOUND.value(),LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }    
 }

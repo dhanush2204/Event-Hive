@@ -1,0 +1,19 @@
+<div class="event-card">
+
+  <h2>{{ event.name }}</h2>
+
+  <p>Location: {{ event.location }}</p>
+
+  <p>
+    Available seats: {{ event.availableSeats }}
+  </p>
+
+  <button
+    [disabled]="event.availableSeats === 0"
+    (click)="register()">
+
+    Register
+
+  </button>
+
+</div>

@@ -1,8 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { EventList } from './event-list/event-list';
 
 @Component({
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [EventList],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',

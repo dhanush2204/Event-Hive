@@ -1,0 +1,10 @@
+<h1>Upcoming Events</h1>
+
+@for (event of events; track event.id) {
+
+  <app-event-card
+    [event]="event"
+    (registerClicked)="handleRegistration($event)">
+  </app-event-card>
+
+}
