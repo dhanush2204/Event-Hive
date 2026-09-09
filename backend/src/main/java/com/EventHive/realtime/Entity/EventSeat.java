@@ -2,8 +2,12 @@ package com.EventHive.realtime.Entity;
 
 import java.time.LocalDateTime;
 
+import com.EventHive.realtime.Enum.EventSeatStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +31,8 @@ public class EventSeat {
     @JoinColumn(name="seat_id")
     private Seat seat;
     private int price;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private EventSeatStatus status;
     private LocalDateTime holdExpiresAt;
 
     public Long getEventseatId() {
@@ -62,11 +67,11 @@ public class EventSeat {
         this.price = price;
     }
 
-    public String getStatus() {
+    public EventSeatStatus getEventSeatStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(EventSeatStatus status) {
         this.status = status;
     }
 

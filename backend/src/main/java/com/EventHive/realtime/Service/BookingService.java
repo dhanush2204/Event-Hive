@@ -1,6 +1,8 @@
-
+package com.EventHive.realtime.Service;
 import java.util.List;
+import java.time.LocalDateTime;
 
+import com.EventHive.realtime.DTO.*;
 import com.EventHive.realtime.Entity.Event;
 import com.EventHive.realtime.Entity.EventSeat;
 import com.EventHive.realtime.Entity.User;
@@ -14,6 +16,8 @@ import com.EventHive.realtime.JpaRepository.BookingSeatRepository;
 import com.EventHive.realtime.JpaRepository.EventRepository;
 import com.EventHive.realtime.JpaRepository.EventSeatRepository;
 import com.EventHive.realtime.JpaRepository.UserRepository;
+
+import jakarta.transaction.Transactional;
 
 public class BookingService {
     private final BookingRepository bookingRepo;
@@ -35,17 +39,16 @@ public class BookingService {
         this.eventRepo = eventRepo;
         this.eventSeatRepo = eventSeatRepo;
     }
+    @Transactional
     public BookingResponseDTO createBooking(BookingRequestDTO request){
         User user=userRepo.findById(request.getUserId())
                       .orElseThrow(()-> new UserNotFoundException("User not found with id "+request.getUserId()));
         Event event = eventRepo.findById(request.getEventId())
                       .orElseThrow(() -> new EventNotFoundException("Event not found with id: " + request.getEventId()));
-        if(event.getStatus()!=EventStatus.UPCOMING){
-            throw new BookingNotAllowedException("Booking not allowed for this event ");
-        }
-        EventStatus status=event.getStatus();
-        if(status!=EventStatus.UPCOMING){
-            throw new InvalidEventStateException("Event with id "+event.getEventId()+" is not allowed for booking");
+        LocalDateTime now=LocalDateTime.now();
+        LocalDateTime bookingCutoff=event.getEventDate().plusMinutes(30);
+        if(now.isAfter(bookingCutoff)){
+            throw new BookingNotAllowedException("Booking is not allowed at this moment");
         }
         List<EventSeat> eventseats=eventSeatRepo.findAllById(request.getEventSeatIds());
         if(eventseats.size()!=request.getEventSeatIds().size()){
@@ -53,8 +56,9 @@ public class BookingService {
         }
         for(EventSeat eventSeat:eventseats){
             if(eventSeat.getEvent().getEventId()!=event.getEventId()){
-                throw new RuntimeException("there's a mismatch between eventseat and event");
+                throw new RuntimeException("there's a mismatch between seat selection and event");
             }
         }
+        
     }
 }

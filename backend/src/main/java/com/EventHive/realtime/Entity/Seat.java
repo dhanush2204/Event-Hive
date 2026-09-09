@@ -21,7 +21,56 @@ public class Seat {
     @JoinColumn(name="venue_id")
     private Venue venue;
     private String rowLabel;
-    private String seatNumber;
+    private int seatNumber;
     private String section;
     private String SeatType;
+
+    public Long getSeatId() {
+        return seatId;
+    }
+
+    public void setSeatId(Long seatId) {
+        this.seatId = seatId;
+    }
+
+    public Venue getVenue() {
+        return venue;
+    }
+
+    public void setVenue(Venue venue) {
+        this.venue = venue;
+    }
+
+    public String getRowLabel() {
+        return rowLabel;
+    }
+
+    public void setRowLabel(String rowLabel) {
+        this.rowLabel = rowLabel;
+    }
+
+    public int getSeatNumber() {
+        return seatNumber;
+    }
+
+    public void setSeatNumber(int seatNumber) {
+        this.seatNumber = seatNumber;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
+    }
+
+    public String getSeatType() {
+        return SeatType;
+    }
+
+    public void setSeatType(String SeatType) {
+        this.SeatType = SeatType;
+    }
+
 }

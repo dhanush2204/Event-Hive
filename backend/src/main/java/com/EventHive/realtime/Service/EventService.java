@@ -13,12 +13,12 @@ import com.EventHive.realtime.DTO.EventResponseDTO;
 import com.EventHive.realtime.DTO.EventUpdateRequestDTO;
 import com.EventHive.realtime.Entity.Event;
 import com.EventHive.realtime.Entity.Venue;
-import com.EventHive.realtime.Enum.EventGenre;
 import com.EventHive.realtime.Enum.EventStatus;
 import com.EventHive.realtime.Exception.EventNotFoundException;
 import com.EventHive.realtime.Exception.InvalidDateTimeException;
 import com.EventHive.realtime.Exception.InvalidEventDataException;
 import com.EventHive.realtime.Exception.InvalidEventStateException;
+import com.EventHive.realtime.Exception.VenueNotFoundException;
 import com.EventHive.realtime.JpaRepository.EventRepository;
 import com.EventHive.realtime.JpaRepository.VenueRepository;
 
@@ -56,8 +56,7 @@ public class EventService {
             throw new RuntimeException("EndDateTime should be in future with respect to startDateTime");
         }
         Venue venue=venueRepo.findById(request.getVenueId())
-                .orElseThrow(()->new RuntimeException
-                ("this venue with id "+request.getVenueId()+" does not exist"));
+                .orElseThrow(()->new VenueNotFoundException("this venue with id "+request.getVenueId()+" does not exist"));
         Event event=new Event();
         event.setEventName(request.getEventName());
         event.setDescription(request.getDescription());

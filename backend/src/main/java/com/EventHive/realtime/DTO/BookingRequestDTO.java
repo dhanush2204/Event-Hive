@@ -1,4 +1,4 @@
-
+package com.EventHive.realtime.DTO;
 import java.util.List;
 
 import jakarta.validation.constraints.NotEmpty;
