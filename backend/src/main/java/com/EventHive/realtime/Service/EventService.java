@@ -12,14 +12,20 @@ import com.EventHive.realtime.DTO.EventRequestDTO;
 import com.EventHive.realtime.DTO.EventResponseDTO;
 import com.EventHive.realtime.DTO.EventUpdateRequestDTO;
 import com.EventHive.realtime.Entity.Event;
+import com.EventHive.realtime.Entity.EventSeat;
+import com.EventHive.realtime.Entity.Seat;
 import com.EventHive.realtime.Entity.Venue;
+import com.EventHive.realtime.Enum.EventSeatStatus;
 import com.EventHive.realtime.Enum.EventStatus;
 import com.EventHive.realtime.Exception.EventNotFoundException;
 import com.EventHive.realtime.Exception.InvalidDateTimeException;
 import com.EventHive.realtime.Exception.InvalidEventDataException;
 import com.EventHive.realtime.Exception.InvalidEventStateException;
 import com.EventHive.realtime.Exception.VenueNotFoundException;
+import com.EventHive.realtime.Exception.VenueSeatsNotConfiguredException;
 import com.EventHive.realtime.JpaRepository.EventRepository;
+import com.EventHive.realtime.JpaRepository.EventSeatRepository;
+import com.EventHive.realtime.JpaRepository.SeatRepository;
 import com.EventHive.realtime.JpaRepository.VenueRepository;
 
 import jakarta.transaction.Transactional;
@@ -29,11 +35,15 @@ public class EventService {
     private final EventRepository eventRepo;
     private final VenueRepository venueRepo;
     private final VenueService venueService;
+    private final SeatRepository seatRepo;
+    private final EventSeatRepository eventSeatRepo;
     @Autowired
-    public EventService(EventRepository eventRepo,VenueRepository venueRepo,VenueService venueService){
+    public EventService(EventRepository eventRepo,VenueRepository venueRepo,VenueService venueService,SeatRepository seatRepo,EventSeatRepository eventSeatRepo){
         this.eventRepo=eventRepo;
         this.venueRepo=venueRepo;
         this.venueService=venueService;
+        this.eventSeatRepo=eventSeatRepo;
+        this.seatRepo=seatRepo;
     }
     public EventResponseDTO convertToResponseDTO(Event event){
         EventResponseDTO dto=new EventResponseDTO();
@@ -48,6 +58,7 @@ public class EventService {
         dto.setCreatedAt(event.getCreatedAt());
         return dto;
     }
+    @Transactional
     public EventResponseDTO createEvent(EventRequestDTO request){
         if(LocalDateTime.now().isAfter(request.getEventDate())){
             throw new RuntimeException(request.getEventDate()+" should be in future");
@@ -57,6 +68,10 @@ public class EventService {
         }
         Venue venue=venueRepo.findById(request.getVenueId())
                 .orElseThrow(()->new VenueNotFoundException("this venue with id "+request.getVenueId()+" does not exist"));
+        List<Seat> seats=seatRepo.findByVenue_VenueId(venue.getVenueId());
+        if(seats.isEmpty()){
+            throw new VenueSeatsNotConfiguredException("Venue with Id "+venue.getVenueId()+" has not configure the seats yet");
+        }        
         Event event=new Event();
         event.setEventName(request.getEventName());
         event.setDescription(request.getDescription());
@@ -67,6 +82,17 @@ public class EventService {
         event.setEndDateTime(request.getEndDateTime());
         event.setCreatedAt(LocalDateTime.now());
         eventRepo.save(event);
+        List<EventSeat> eventSeats=new ArrayList<>();
+        for(Seat seat:seats){
+            EventSeat eventSeat=new EventSeat();
+            eventSeat.setEvent(event);
+            eventSeat.setSeat(seat);
+            eventSeat.setPrice(request.getPrice());
+            eventSeat.setStatus(EventSeatStatus.AVAILABLE);
+            eventSeat.setHoldExpiresAt(null);
+            eventSeats.add(eventSeat);
+        }
+        eventSeatRepo.saveAll(eventSeats);
         return convertToResponseDTO(event);
     }
     public EventResponseDTO getEventById(Long eventId){

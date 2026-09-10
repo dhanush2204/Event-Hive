@@ -8,8 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 @Getter
 @Setter
-public class BookingRequestDTO {
-
+public class HoldRequestDTO {
     @NotNull(message = "userId is Required")
     @Positive(message = "userId must be Positive")
     private Long userId;
@@ -19,5 +18,5 @@ public class BookingRequestDTO {
     private Long eventId;
 
     @NotEmpty(message = "At least one event seat is required")
-    private List<Long> eventSeatIds;
+    private List<@NotNull @Positive Long> eventSeatIds;
 }

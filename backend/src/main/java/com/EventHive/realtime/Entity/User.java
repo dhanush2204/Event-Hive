@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
 @Entity
 @Table(name="user")
@@ -31,4 +32,29 @@ public class User {
     private LocalDateTime createdAt;
     @OneToMany(mappedBy="user")
     private List<Booking> bookings;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
 }

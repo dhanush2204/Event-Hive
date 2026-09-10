@@ -7,7 +7,10 @@ import com.EventHive.realtime.Enum.EventGenre;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 public class EventRequestDTO {
     @NotBlank(message="Name is Required")
     private String eventName;
@@ -22,53 +25,7 @@ public class EventRequestDTO {
     private LocalDateTime eventDate;
     @NotNull
     private LocalDateTime endDateTime;
-
-    public String getEventName() {
-        return eventName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public EventGenre getGenre() {
-        return genre;
-    }
-
-    public long getVenueId() {
-        return venueId;
-    }
-
-    public LocalDateTime getEventDate() {
-        return eventDate;
-    }
-
-    public LocalDateTime getEndDateTime() {
-        return endDateTime;
-    }
-
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setGenre(EventGenre genre) {
-        this.genre = genre;
-    }
-
-    public void setVenueId(long venueId) {
-        this.venueId = venueId;
-    }
-
-    public void setEventDate(LocalDateTime eventDate) {
-        this.eventDate = eventDate;
-    }
-
-    public void setEndDateTime(LocalDateTime endDateTime) {
-        this.endDateTime = endDateTime;
-    }
-
+    @NotNull
+    @Positive
+    private Integer price;
 }

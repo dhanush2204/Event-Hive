@@ -11,6 +11,7 @@ import com.EventHive.realtime.DTO.SeatRequestDTO;
 import com.EventHive.realtime.DTO.SeatResponseDTO;
 import com.EventHive.realtime.Entity.Seat;
 import com.EventHive.realtime.Entity.Venue;
+import com.EventHive.realtime.Enum.SeatType;
 import com.EventHive.realtime.Exception.VenueNotFoundException;
 import com.EventHive.realtime.JpaRepository.SeatRepository;
 import com.EventHive.realtime.JpaRepository.VenueRepository;
@@ -45,6 +46,7 @@ public class SeatService {
             for(int j=1;j<=seatsPerRow;j++){
                 Seat seat=new Seat();
                 seat.setVenue(venue);
+                seat.setSeatType(SeatType.REGULAR);
                 seat.setRowLabel(String.valueOf(rowLabel));
                 seat.setSeatNumber(j);
                 seats.add(seat);

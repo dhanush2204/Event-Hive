@@ -2,6 +2,8 @@ package com.EventHive.realtime.Service;
 import java.util.List;
 import java.time.LocalDateTime;
 
+import org.springframework.stereotype.Service;
+
 import com.EventHive.realtime.DTO.*;
 import com.EventHive.realtime.Entity.Event;
 import com.EventHive.realtime.Entity.EventSeat;
@@ -18,7 +20,7 @@ import com.EventHive.realtime.JpaRepository.EventSeatRepository;
 import com.EventHive.realtime.JpaRepository.UserRepository;
 
 import jakarta.transaction.Transactional;
-
+@Service
 public class BookingService {
     private final BookingRepository bookingRepo;
     private final BookingSeatRepository bookingSeatRepo;

@@ -32,7 +32,8 @@ public class SeatController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     @GetMapping("/{venueId}/seats")
-    public List<SeatDetailsResponseDTO> getSeatsByVenue(@PathVariable Long venueId){
-        return seatService.getSeatsByVenue(venueId);
+    public ResponseEntity<List<SeatDetailsResponseDTO>> getSeatsByVenue(@PathVariable Long venueId){
+        List<SeatDetailsResponseDTO> response=seatService.getSeatsByVenue(venueId);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

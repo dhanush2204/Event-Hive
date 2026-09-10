@@ -1,7 +1,11 @@
 package com.EventHive.realtime.Entity;
 
+import com.EventHive.realtime.Enum.SeatType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,9 +13,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.*;
 
 @Entity
 @Table(name="seat")
+@Getter
+@Setter
 public class Seat {
     @Id
     @Column(name="seat_id")
@@ -23,54 +30,6 @@ public class Seat {
     private String rowLabel;
     private int seatNumber;
     private String section;
-    private String SeatType;
-
-    public Long getSeatId() {
-        return seatId;
-    }
-
-    public void setSeatId(Long seatId) {
-        this.seatId = seatId;
-    }
-
-    public Venue getVenue() {
-        return venue;
-    }
-
-    public void setVenue(Venue venue) {
-        this.venue = venue;
-    }
-
-    public String getRowLabel() {
-        return rowLabel;
-    }
-
-    public void setRowLabel(String rowLabel) {
-        this.rowLabel = rowLabel;
-    }
-
-    public int getSeatNumber() {
-        return seatNumber;
-    }
-
-    public void setSeatNumber(int seatNumber) {
-        this.seatNumber = seatNumber;
-    }
-
-    public String getSection() {
-        return section;
-    }
-
-    public void setSection(String section) {
-        this.section = section;
-    }
-
-    public String getSeatType() {
-        return SeatType;
-    }
-
-    public void setSeatType(String SeatType) {
-        this.SeatType = SeatType;
-    }
-
+    @Enumerated(EnumType.STRING)
+    private SeatType seatType;
 }

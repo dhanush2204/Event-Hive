@@ -16,8 +16,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.*;
 
 @Entity
+@Getter
+@Setter
 @Table(name="event_seat", uniqueConstraints=@UniqueConstraint(columnNames={"event_id","seat_id"}))
 public class EventSeat {
     @Id
@@ -25,62 +28,15 @@ public class EventSeat {
     @Column(name="eventseat_id")
     private Long eventseatId;
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="event_id")
+    @JoinColumn(name="event_id", nullable = false)
     private Event event;
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="seat_id")
+    @JoinColumn(name="seat_id", nullable = false)
     private Seat seat;
+    @Column(nullable = false)
     private int price;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private EventSeatStatus status;
     private LocalDateTime holdExpiresAt;
-
-    public Long getEventseatId() {
-        return eventseatId;
-    }
-
-    public void setEventseatId(Long eventseatId) {
-        this.eventseatId = eventseatId;
-    }
-
-    public Event getEvent() {
-        return event;
-    }
-
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-
-    public Seat getSeat() {
-        return seat;
-    }
-
-    public void setSeat(Seat seat) {
-        this.seat = seat;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public EventSeatStatus getEventSeatStatus() {
-        return status;
-    }
-
-    public void setStatus(EventSeatStatus status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getHoldExpiresAt() {
-        return holdExpiresAt;
-    }
-
-    public void setHoldExpiresAt(LocalDateTime holdExpiresAt) {
-        this.holdExpiresAt = holdExpiresAt;
-    }
-
 }

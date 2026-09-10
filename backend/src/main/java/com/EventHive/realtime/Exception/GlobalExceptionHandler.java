@@ -43,5 +43,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleBookingNotAllowed(BookingNotAllowedException ex){
         ErrorResponse error=new ErrorResponse(ex.getMessage(),HttpStatus.NOT_FOUND.value(),LocalDateTime.now());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-    }    
+    }
+    @ExceptionHandler(VenueSeatsNotConfiguredException.class)
+    public ResponseEntity<ErrorResponse> handleVenueSeatsNotConfigured(VenueSeatsNotConfiguredException ex){
+        ErrorResponse error=new ErrorResponse(ex.getMessage(),HttpStatus.NOT_FOUND.value(),LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+    @ExceptionHandler(HoldNotAllowedException.class)
+    public ResponseEntity<ErrorResponse> handleHoldNotAllowed(HoldNotAllowedException ex){
+        ErrorResponse error=new ErrorResponse(ex.getMessage(),HttpStatus.NOT_FOUND.value(),LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }      
 }
