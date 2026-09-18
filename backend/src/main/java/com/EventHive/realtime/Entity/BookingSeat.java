@@ -2,7 +2,6 @@ package com.EventHive.realtime.Entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,11 +14,11 @@ import jakarta.persistence.Table;
 public class BookingSeat {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long BookingSeatId;
+    private Long bookingSeatId;
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="booking_id")
-    private Booking bookingId;
+    private Booking booking;
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="eventseat_id")
-    private EventSeat eventseatId;
+    private EventSeat eventSeat;
 }

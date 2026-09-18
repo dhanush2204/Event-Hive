@@ -8,7 +8,7 @@ import java.util.HashSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.EventHive.realtime.DTO.HoldRequestDTO;
+import com.EventHive.realtime.DTO.BookingRequestDTO;
 import com.EventHive.realtime.DTO.HoldResponseDTO;
 import com.EventHive.realtime.Entity.Event;
 import com.EventHive.realtime.Entity.EventSeat;
@@ -41,7 +41,7 @@ public class HoldService {
     HoldSeatRepository holdSeatRepo;
     HoldRepository holdRepo;
     @Transactional
-    public HoldResponseDTO createHold(HoldRequestDTO request){
+    public Hold createHold(BookingRequestDTO request){
         User user = userRepo.findById(request.getUserId())
                       .orElseThrow(()->new UserNotFoundException("User not found with id "+request.getUserId()));
         if(user.getRole()!=UserRole.CUSTOMER){
@@ -96,19 +96,6 @@ public class HoldService {
         
         holdSeatRepo.saveAll(holdSeats);
 
-        HoldResponseDTO holdResponseDto=new HoldResponseDTO();
-        holdResponseDto.setHoldId(hold.getHoldId());
-        holdResponseDto.setUserId(user.getUserId());
-        holdResponseDto.setEventId(event.getEventId());
-        holdResponseDto.setEventName(event.getEventName());
-        holdResponseDto.setStatus(hold.getStatus());
-        holdResponseDto.setCreatedAt(hold.getCreatedAt());
-        holdResponseDto.setExpiresAt(hold.getExpiresAt());
-        List<Long> eventSeatIds=new ArrayList<>();
-        for(EventSeat eventSeat:eventSeats){
-            eventSeatIds.add(eventSeat.getEventseatId());
-        }
-        holdResponseDto.setEventSeatIds(eventSeatIds);
-        return holdResponseDto;
+        return hold;
     }
 }
