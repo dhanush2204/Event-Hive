@@ -22,10 +22,10 @@ public interface EventSeatRepository extends JpaRepository<EventSeat, Long>{
 
     @Modifying
     @Query("""
-        Update EventSeat as es
+        Update EventSeat es
         set es.status='HELD',
-            es.holdExpiresAt=:expiresAt,
-        where es.event.eventId=:eventId,
+            es.holdExpiresAt=:expiresAt
+        where es.event.eventId=:eventId
         AND es.eventseatId IN :eventSeatIds
       AND (
           es.status = 'AVAILABLE'
@@ -39,6 +39,26 @@ public interface EventSeatRepository extends JpaRepository<EventSeat, Long>{
         @Param("eventId") Long eventId,
         @Param("eventSeatIds") List<Long> eventSeatIds,
         @Param("expiresAt") LocalDateTime expiresAt,
+        @Param("now") LocalDateTime now
+    );
+    @Modifying
+    @Query("""     
+        Update EventSeat es
+        set es.status='BOOKED',
+            es.holdExpiresAt = Null
+        where es.eventseatId IN :eventSeatIds
+          AND es.status='HELD'
+          and exists(
+               select 1 from HoldSeat hs
+            where hs.eventSeat=es
+               and hs.hold.holdId=:holdId
+               and hs.hold.status='ACTIVE'
+               and hs.hold.expiresAt>:now
+            )         
+    """)
+    int convertHeldSeatsToBooked(
+        @Param("eventSeatIds") List<Long> eventSeatIds,
+        @Param("holdId") Long holdId,
         @Param("now") LocalDateTime now
     );
 }

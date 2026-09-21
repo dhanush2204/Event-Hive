@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-RealtimeApplication<realtime>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.EventHive.realtime.RealtimeApplication",
+            "projectName": "realtime",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
