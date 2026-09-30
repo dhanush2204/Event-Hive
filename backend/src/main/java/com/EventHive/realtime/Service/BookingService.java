@@ -39,7 +39,7 @@ public class BookingService {
         response.setEventName(booking.getEvent().getEventName());
         response.setBookingStatus(booking.getBookingStatus());
         response.setBookedAt(booking.getCreatedAt());
-        List<BookingSeat> bookingSeats=bookingSeatRepo.findByBookingId(booking.getBookingId());
+        List<BookingSeat> bookingSeats=bookingSeatRepo.findByBooking_BookingId(booking.getBookingId());
         response.setTotalAmount(booking.getTotalAmount());
         List<String> seats=bookingSeats.stream()
                          .map(bookingSeat ->{
@@ -90,7 +90,7 @@ public class BookingService {
         Booking booking=new Booking();
         booking.setUser(hold.getUser());
         booking.setEvent(hold.getEvent());
-        booking.setBookingStatus(BookingStatus.CANCELLED);
+        booking.setBookingStatus(BookingStatus.CONFIRMED);
         booking.setHold(hold);
         booking.setTotalAmount(payment.getAmount());
         booking.setCreatedAt(now);
@@ -114,6 +114,6 @@ public class BookingService {
         
         hold.setStatus(HoldStatus.CONVERTED);
 
-    return convertToResponseDTO(booking);
+    return convertToResponseDTO(savedBooking);
     }
 }
