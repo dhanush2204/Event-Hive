@@ -1,6 +1,7 @@
 package com.EventHive.realtime.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -9,4 +10,5 @@ import com.EventHive.realtime.Entity.Booking;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking,Long>{
     List<Booking> findByUser_UserId(Long userId);
+    Optional<Booking> findByHold_HoldId(Long holdId);
 }
